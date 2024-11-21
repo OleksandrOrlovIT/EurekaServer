@@ -1,0 +1,20 @@
+services:
+  eureka-server-app:
+    image: eureka-server-app
+    container_name: eureka-server-app
+    ports:
+      - "8761:8761"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - JAVA_OPTS="-Djavax.net.ssl.keyStore=/app/resources/myCertificate.jks -Djavax.net.ssl.keyStorePassword=rootroot -Djavax.net.ssl.trustStore=/app/resources/myCertificate.jks -Djavax.net.ssl.trustStorePassword=rootroot"
+    networks:
+      gym-network:
+        ipv4_address: 172.18.0.10
+    volumes:
+      - ./src/main/resources/myCertificate.jks:/app/resources/myCertificate.jks
+
+networks:
+  gym-network:
+    external: true
